@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { alpha } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,6 +23,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { TextField } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useDispatch, useSelector } from 'react-redux';
+import { SetNumberOfSelectedItem } from '@/Redux/Selecteditem';
 interface Data {
   calories: number;
   carbs: number;
@@ -112,13 +115,13 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
   {
     id: 'Images',
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: 'Images',
   },
   {
     id: 'Name',
-    numeric: false,
+    numeric: true,
     disablePadding: true,
     label: 'Name',
   },
@@ -129,6 +132,12 @@ const headCells: readonly HeadCell[] = [
     label: 'Color',
   },
   {
+    id: 'Price',
+    numeric: true,
+    disablePadding: true,
+    label: 'Price',
+  },
+  {
     id: 'Stock',
     numeric: true,
     disablePadding: false,
@@ -136,8 +145,8 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: 'Buy',
-    numeric: false,
-    disablePadding: true,
+    numeric: true,
+    disablePadding: false,
     label: 'Buy',
   },
 ];
@@ -167,8 +176,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
+          
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.Name ? order : false}
+            sortDirection={orderBy === headCell.Image ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -184,7 +194,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-          <TableCell padding="checkbox">
+          <TableCell >
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -206,43 +216,16 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
-        </Typography>
-      )}
-      
-    </Toolbar>
+ const Dispatch =useDispatch()
+ Dispatch(SetNumberOfSelectedItem(numSelected))
+ return (
+ <></>
   );
+  
 }
 
-export default function List({rows}:any) {
+export default function List() {
+  const rows= useSelector((state: any) => state.Data.Data);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -269,7 +252,7 @@ export default function List({rows}:any) {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (event: React.MouseEvent<unknown>, name: string,row:any) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -285,6 +268,7 @@ export default function List({rows}:any) {
         selected.slice(selectedIndex + 1),
       );
     }
+
 
     setSelected(newSelected);
   };
@@ -307,6 +291,7 @@ export default function List({rows}:any) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+console.log(selected);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -314,7 +299,7 @@ export default function List({rows}:any) {
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ minWidth: 800 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -332,12 +317,12 @@ export default function List({rows}:any) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.Name);
                   const labelId = `enhanced-table-checkbox-${index}`;
-console.log("this",row);
+
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.Name)}
+                      onClick={(event) => handleClick(event, row.Name,row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -345,11 +330,12 @@ console.log("this",row);
                       selected={isItemSelected}
                     >
                    
+                   <TableCell align='right'
+                      >
+             <img src={row.Image} width="70px"/>
+                      </TableCell>                 
                       <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                        align='right'
                       >
                         {row.Name}
                       </TableCell>
@@ -358,17 +344,22 @@ console.log("this",row);
 }</TableCell>
                       <TableCell align="right">{row.Stock}</TableCell>
                       
-                      <TableCell align="right"><TextField  size='small' value="1"style={{width:'50px'}}></TextField> <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"100px", height:"6.5vh",backgroundColor:"black"}} />
-
+                      <TableCell align="right" >
+ 
+                        <TextField  size='small' value="1"style={{width:'50px'}}></TextField> 
+                        <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
-                      <TableCell padding="checkbox">
+                      <TableCell >
+ 
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}
+                          
                         />
+                        
                       </TableCell>
                     </TableRow>
                   );

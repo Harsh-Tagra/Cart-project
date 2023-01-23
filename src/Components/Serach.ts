@@ -1,6 +1,7 @@
+
 const serach = (search: any, data: any) => {
     if (search.length === 0) {
-      console.log(data);
+;
       return data;
     } else {
       let keys: any = [];
