@@ -2,22 +2,30 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Fliterfuncation from './filtterfunction';
+import { SetData } from '@/Redux/dataslice';
 
-export default function SelectFields() {
+export default function SelectFields({items}:any) {
+  
 
-  const data = useSelector((state: any) => state.Data.Data);
-   
+const dispach= useDispatch()   
   return (
 <>
     <TextField
           id="outlined-select-currency"
           select
-          defaultValue="EUR"
+      defaultValue="ALL"
 size='small'
+onChange={(e)=>{dispach(SetData(
+Fliterfuncation(items,e.target.value,"Size")));
+}}
 >
-          {data.map(({Size}:any) => (
+<MenuItem key="ALL" value="ALL">ALL</MenuItem>
+          
+          {items.map(({Size}:any) => (
             <MenuItem key={Size} value={Size}>
+
               {Size}
             </MenuItem>
           ))}
@@ -25,11 +33,18 @@ size='small'
         <TextField
         id="outlined-select-currency"
         select
-        defaultValue="EUR"
+        defaultValue="ALL"
 size='small'
+onChange={(e)=>{dispach(SetData(
+  Fliterfuncation(items,e.target.value,"Type")));
+  }}
 >
-        {data.map(({Type}:any) => (
-          <MenuItem key={Type} value={Type}>
+ 
+<MenuItem key="ALL" value="ALL">ALL</MenuItem>
+          
+        {items.map(({Type}:any) => (
+ 
+ <MenuItem key={Type} value={Type}>
             {Type}
           </MenuItem>
         ))}

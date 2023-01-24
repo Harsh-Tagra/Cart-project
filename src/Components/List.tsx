@@ -24,7 +24,8 @@ import { visuallyHidden } from '@mui/utils';
 import { TextField } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { SetNumberOfSelectedItem } from '@/Redux/Selecteditem';
+import { SetNumberOfSelectedItem, SetSelectedItem } from '@/Redux/Selecteditem';
+import { updateItemQty } from '@/Redux/dataslice';
 interface Data {
   calories: number;
   carbs: number;
@@ -210,25 +211,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
- const Dispatch =useDispatch()
- Dispatch(SetNumberOfSelectedItem(numSelected))
- return (
- <></>
-  );
-  
-}
-
 export default function List() {
   const rows= useSelector((state: any) => state.Data.Data);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -244,20 +231,23 @@ export default function List() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n:any) => n.Name);
+      // const newSelected = rows.map((n:any) => n.Name);
 
-      setSelected(newSelected);
+      setSelected(rows);
       return;
     }
     setSelected([]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string,row:any) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
+    // setSelected(row)
+
+    const selectedIndex = selected.findIndex((data:any)=>data.Name===row.Name);
+    console.log("selected index is ",selectedIndex)
+    let newSelected= [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, row);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -271,6 +261,26 @@ export default function List() {
 
 
     setSelected(newSelected);
+
+
+    // const selectedIndex = selected.indexOf(name);
+    // let newSelected: readonly string[] = [];
+
+    // if (selectedIndex === -1) {
+    //   newSelected = newSelected.concat(selected, name);
+    // } else if (selectedIndex === 0) {
+    //   newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //   newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1),
+    //   );
+    // }
+
+
+    // setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -286,17 +296,27 @@ export default function List() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (name: string) => selected.findIndex((data)=>data.Name===name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-console.log(selected);
 
-  return (
+const Dispatch =useDispatch()
+const updateItem= (index,qty)=>{
+  console.log("index,qty",index,qty);
+  
+  Dispatch(updateItemQty({
+    index,
+    qty
+  }))
+}
+ 
+ Dispatch(SetNumberOfSelectedItem(selected.length))
+Dispatch(SetSelectedItem(selected));
+ return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 800 }}
@@ -317,7 +337,6 @@ console.log(selected);
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.Name);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
 
                   return (
                     <TableRow
@@ -346,7 +365,7 @@ console.log(selected);
                       
                       <TableCell align="right" >
  
-                        <TextField  size='small' value="1"style={{width:'50px'}}></TextField> 
+                        <TextField  size='small' value={row.qty} onChange={(e)=>updateItem(index,e.target.value)} style={{width:'50px'}}></TextField> 
                         <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
                       <TableCell >

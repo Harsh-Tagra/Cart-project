@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  NumberOfSelectedItem:0
+  NumberOfSelectedItem:0,
+  SelectedItem:[]
 }
 
 export const NumberOfSelectedItem = createSlice({
@@ -16,10 +17,42 @@ export const NumberOfSelectedItem = createSlice({
       state.NumberOfSelectedItem = action.payload;
     
     },
+    SetSelectedItem: (state, action) => {
+       
+        
+      state.SelectedItem = action.payload;
+    
+    },
+    updateCartItemQty:(state,action)=>{
+      let index= action.payload.index
+      let qty = action.payload.qty
+      if(qty==0){
+        state.SelectedItem.splice(index,1)
+      }
+      state.SelectedItem[index].qty=qty
+    },
+    incrementCartItemQty:(state,action)=>{
+      let index= action.payload.index
+      state.SelectedItem[index].qty= state.SelectedItem[index].qty+1
+    },
+    decrementCartItemQty:(state,action)=>{
+      let index= action.payload.index
+      state.SelectedItem[index].qty=state.SelectedItem[index].qty-1
+      if(state.SelectedItem[index].qty==0){
+        state.SelectedItem.splice(index,1)
+      }
+    
+
+    },
+    Delete:(state,action)=>{
+      let index= action.payload.index
+    let qty = action.payload.qty
+    state.SelectedItem.splice(index,1)    
+  }
   },
 })
 
-// Action creators are generated for each case reducer function
-export const {SetNumberOfSelectedItem} = NumberOfSelectedItem.actions
+export const {Delete,SetNumberOfSelectedItem,SetSelectedItem,decrementCartItemQty,incrementCartItemQty,updateCartItemQty} = NumberOfSelectedItem.actions
+
 
 export default NumberOfSelectedItem.reducer

@@ -5,7 +5,7 @@
             "Name": "ysn",
             "Color": "black",
             "Stock": "in Stock",
-            "Price": "$35",
+            "Price": "35",
             "Size": "l",
             "Type": "hoddie"
         },
@@ -14,7 +14,7 @@
             "Name": "djd",
             "Color": "gray",
             "Stock": "in Stock",
-            "Price": "$35",
+            "Price": "35",
             "Size": "xl",
             "Type": "hoddie"
         },
@@ -23,7 +23,7 @@
             "Name": "batman",
             "Color": "white and gray",
             "Stock": "in Stock",
-            "Price": "$35",
+            "Price": "35",
             "Size": "xxl",
             "Type": "hoddie"
         },
@@ -32,7 +32,7 @@
             "Name": "gre",
             "Color": "grey",
             "Stock": "in Stock",
-            "Price": "$35",
+            "Price": "35",
             "Size": "xxl",
             "Type": "hoddie"
         }
