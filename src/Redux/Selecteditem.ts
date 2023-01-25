@@ -26,6 +26,8 @@ export const NumberOfSelectedItem = createSlice({
     updateCartItemQty:(state,action)=>{
       let index= action.payload.index
       let qty = action.payload.qty
+      console.log(action.pa);
+      
       if(qty==0){
         state.SelectedItem.splice(index,1)
       }
@@ -46,7 +48,7 @@ export const NumberOfSelectedItem = createSlice({
     },
     Delete:(state,action)=>{
       let index= action.payload.index
-    let qty = action.payload.qty
+
     state.SelectedItem.splice(index,1)    
   }
   },

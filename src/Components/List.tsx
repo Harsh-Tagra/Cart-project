@@ -116,8 +116,8 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
   {
     id: 'Images',
-    numeric: true,
-    disablePadding: true,
+    numeric: false,
+    disablePadding: false,
     label: 'Images',
   },
   {
@@ -170,7 +170,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     };
 
   return (
-    <TableHead>
+    <TableHead  style={{backgroundColor:"rgb(235 235 235)" ,borderBottom: "solid grey"}}>
       <TableRow>
       
         {headCells.map((headCell) => (
@@ -322,16 +322,19 @@ Dispatch(SetSelectedItem(selected));
             sx={{ minWidth: 800 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
+         
           >
             <EnhancedTableHead
+              
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              
             />
-            <TableBody>
+            <TableBody style={{backgroundColor:"rgb(249 246 246)"}} >
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
@@ -349,7 +352,7 @@ Dispatch(SetSelectedItem(selected));
                       selected={isItemSelected}
                     >
                    
-                   <TableCell align='right'
+                   <TableCell align='left'
                       >
              <img src={row.Image} width="70px"/>
                       </TableCell>                 
@@ -368,7 +371,7 @@ Dispatch(SetSelectedItem(selected));
                         <TextField  size='small' value={row.qty} onChange={(e)=>updateItem(index,e.target.value)} style={{width:'50px'}}></TextField> 
                         <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
-                      <TableCell >
+                      <TableCell style={{width:"10px"}}>
  
                         <Checkbox
                           color="primary"
@@ -396,6 +399,7 @@ Dispatch(SetSelectedItem(selected));
           </Table>
         </TableContainer>
         <TablePagination
+        style={{backgroundColor:"rgb(249 246 246)"}}
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}

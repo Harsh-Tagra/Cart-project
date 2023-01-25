@@ -20,6 +20,8 @@ export const Data = createSlice({
       let index= action.payload.index
       let qty = action.payload.qty
       state.Data[index].qty=qty
+     
+      
     }
   },
 })

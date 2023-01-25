@@ -1,6 +1,5 @@
 import { Button, TextField } from "@mui/material"
 import List from "@/Components/List"
-import UndoIcon from '@mui/icons-material/Undo';
 import SelectFields from "@/Components/SelectFields"
 import JsonData from '../Components/dummy.json' 
 import serach from "@/Components/Serach";
@@ -24,15 +23,15 @@ const number = useSelector((state: any) => state.NumberOfSelectedItem.NumberOfSe
  
   return (
    <>
-   <div style={{display:"flex",justifyContent:"space-between"}}>
+   <div style={{display:"flex",justifyContent:"space-between",margin:"10px"}}>
     <div>
-   <SelectFields items={JsonData.data} />   <Button startIcon={<UndoIcon/>} onClick={()=>{dispach(SetData(JsonData.data))}} size="large">reset</Button>
+   <SelectFields items={JsonData.data} /> 
    </div>
-<div >
+<div style={{display:"flex",width:"23rem", justifyContent:"space-between", alignItems:"center"}} >
+
            <TextField id="outlined-search" onChange={(e)=>
          dispach( SetData( serach(e.target.value,JsonData.data)))} label="Search field" size="small"  type="search" />
-           {number==0?<Button variant="contained">add to cart</Button>
-           :<Button variant="contained" color="success"  onClick={()=>router.push("/Cart")}>continue with {number}</Button>}
+           <Button variant="contained"  onClick={()=>router.push("/Cart")}>add to cart</Button>
            </div>
            </div>
    <List/>
