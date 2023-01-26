@@ -21,9 +21,9 @@ return (
         
         <h1>Cart totals</h1>
     
-       <h4 style={{display:"flex", justifyContent:"space-between"}}>Subtotal <div>{Price} </div></h4>
+       <h4 style={{display:"flex", justifyContent:"space-between"}}>Subtotal <div> ${Price} </div></h4>
        <Divider></Divider>
-       <h4 style={{display:"flex", justifyContent:"space-between"}}>Total <div>{Price}</div></h4>
+       <h4 style={{display:"flex", justifyContent:"space-between"}}>Total <div>${Price}</div></h4>
         <center>
         <Button variant="contained" style={{borderRadius:"40px"}} >procide to check out</Button>
         </center>

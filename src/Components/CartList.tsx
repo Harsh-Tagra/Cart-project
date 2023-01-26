@@ -17,7 +17,7 @@ import { getQtyStringToInt } from '@/utils/utils-generic';
 
 export default function CartList() {
   const items = useSelector((state: any) => state.NumberOfSelectedItem.SelectedItem)
-  console.log(items);
+
   
 const Dispatch = useDispatch()
   const updateItem= (index:number,qtyString:string)=>{
@@ -32,7 +32,7 @@ const Dispatch = useDispatch()
   const remove =(index:number)=>{
    Dispatch(decrementCartItemQty({index}))  
   }
-  console.log(items);
+
   
   return (
     <TableContainer style={{boxShadow:"none" }} component={Paper}>
@@ -53,7 +53,7 @@ const Dispatch = useDispatch()
           {items.map((row:any, index:any) => (
             
     <>
-    {console.log(row)}      
+    
       <TableRow
               key={row.Name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -68,7 +68,7 @@ const Dispatch = useDispatch()
 
                 {row.Name}
               </TableCell>
-              <TableCell align="right">{row.Price
+              <TableCell align="right">${row.Price
               }</TableCell>
  
               <TableCell align="right" >

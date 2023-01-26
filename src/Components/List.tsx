@@ -203,11 +203,11 @@ export default function List() {
   const rows= useSelector((state: any) => state.Data.Data);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('');
-  const [selected, setSelected] = React.useState([]);
+  // const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+const selected= useSelector((state:any) => state.NumberOfSelectedItem.SelectedItem)
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Data,
@@ -221,17 +221,18 @@ export default function List() {
     if (event.target.checked) {
       // const newSelected = rows.map((n:any) => n.Name);
 
-      setSelected(rows);
+      // setSelected(rows);
+      Dispatch(SetSelectedItem(rows));
       return;
     }
-    setSelected([]);
+    // setSelected([]);
+    Dispatch(SetSelectedItem([]));
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string,row:any) => {
     // setSelected(row)
 
     const selectedIndex = selected.findIndex((data:any)=>data.Name===row.Name);
-    console.log("selected index is ",selectedIndex)
     let newSelected:any= [];
 
     if (selectedIndex === -1) {
@@ -248,8 +249,8 @@ export default function List() {
     }
 
 
-    setSelected(newSelected);
-
+    // setSelected(newSelected);
+    Dispatch(SetSelectedItem(newSelected));
 
     // const selectedIndex = selected.indexOf(name);
     // let newSelected: readonly string[] = [];
@@ -294,8 +295,7 @@ const Dispatch =useDispatch()
 const updateItem= (index:number,stringQty:any,id:number)=>{
   let qty=getQtyStringToInt(stringQty)
   
-  console.log("index,qty",index,qty);
-  Dispatch(updateItemQty({
+   Dispatch(updateItemQty({
     index,
     qty
   }))
@@ -357,7 +357,7 @@ const updateItem= (index:number,stringQty:any,id:number)=>{
                         {row.Name}
                       </TableCell>
                       <TableCell align="right">{row.Color}</TableCell>
-                      <TableCell align="right">{row.Price
+                      <TableCell align="right"> ${row.Price
 }</TableCell>
                       <TableCell align="right">{row.Stock}</TableCell>
                       

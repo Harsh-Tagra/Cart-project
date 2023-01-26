@@ -54,15 +54,14 @@ export const NumberOfSelectedItem = createSlice({
       let id = parseInt(action.payload.id)
       let qty = action.payload.qty
       let index = state.SelectedItem.findIndex((item:any) => item.id === id)
-      console.log("updateCartItemWithId", id,qty,index);
+   
       
       if (index != -1) {
-        console.log("updated", current(state));
         
         state.NumberOfSelectedItem=  state.NumberOfSelectedItem-state.SelectedItem[index].qty+qty
         state.SelectedItem[index].qty = qty 
         
-        console.log("after update",current(state));
+ 
       }
     },
   },
