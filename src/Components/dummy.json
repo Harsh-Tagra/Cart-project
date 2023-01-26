@@ -39,6 +39,16 @@
             "Size": "xxl",
             "Type": "hoddie",
             "id":4
+        },
+        {
+            "Image": "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F40%2F71%2F4071b4a39844344e1de770b4a494ba7e3078219d.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_tshirtstanks_shortsleeve%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
+            "Name": "grsse",
+            "Color": "grey",
+            "Stock": "in Stock",
+            "Price": "35",
+            "Size": "xxl",
+            "Type": "tshirt",
+            "id":4
         }
     ]
 }

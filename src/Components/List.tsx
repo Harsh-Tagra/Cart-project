@@ -202,7 +202,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 export default function List() {
   const rows= useSelector((state: any) => state.Data.Data);
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [orderBy, setOrderBy] = React.useState<string>('');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -363,7 +363,7 @@ const updateItem= (index:number,stringQty:any,id:number)=>{
                       
                       <TableCell align="right" >
  
-                        <TextField  size='small' value={row.qty} onChange={(e)=>updateItem(index,e.target.value)} style={{width:'50px'}}></TextField> 
+                        <TextField  size='small' defaultValue="1" onChange={(e)=>updateItem(index,e.target.value,row.id)} style={{width:'50px'}}></TextField> 
                         <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
                       <TableCell style={{width:"10px"}}>

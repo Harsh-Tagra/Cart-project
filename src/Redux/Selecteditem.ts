@@ -11,19 +11,19 @@ export const NumberOfSelectedItem = createSlice({
   reducers: {
 
 
-    SetNumberOfSelectedItem: (state, action) => {
+    SetNumberOfSelectedItem: (state:any, action) => {
 
 
       state.NumberOfSelectedItem = action.payload;
 
     },
-    SetSelectedItem: (state, action) => {
+    SetSelectedItem: (state:any, action) => {
 
 
       state.SelectedItem = action.payload;
 
     },
-    updateCartItemQty: (state, action) => {
+    updateCartItemQty: (state:any, action) => {
       let index = action.payload.index
       let qty = action.payload.qty
 
@@ -32,11 +32,11 @@ export const NumberOfSelectedItem = createSlice({
       }
       state.SelectedItem[index].qty = qty
     },
-    incrementCartItemQty: (state, action) => {
+    incrementCartItemQty: (state:any, action) => {
       let index = action.payload.index
       state.SelectedItem[index].qty = state.SelectedItem[index].qty + 1
     },
-    decrementCartItemQty: (state, action) => {
+    decrementCartItemQty: (state:any, action) => {
       let index = action.payload.index
       state.SelectedItem[index].qty = state.SelectedItem[index].qty - 1
       if (state.SelectedItem[index].qty == 0) {
@@ -45,15 +45,15 @@ export const NumberOfSelectedItem = createSlice({
 
 
     },
-    Delete: (state, action) => {
+    Delete: (state:any, action) => {
       let index = action.payload.index
 
       state.SelectedItem.splice(index, 1)
     },
-    updateCartItemWithId: (state, action) => {
+    updateCartItemWithId: (state:any, action) => {
       let id = parseInt(action.payload.id)
       let qty = action.payload.qty
-      let index = state.SelectedItem.findIndex(item => item.id === id)
+      let index = state.SelectedItem.findIndex((item:any) => item.id === id)
       console.log("updateCartItemWithId", id,qty,index);
       
       if (index != -1) {

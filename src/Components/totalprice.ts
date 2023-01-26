@@ -1,4 +1,4 @@
-const totalprice = (item,row)=>{
+const totalprice = (item:any,row:any)=>{
     let total=0;
     
     for (let i = 0; i < item; i++) {

@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-const initialState = {
-  Data:[]
+import {DataI} from '../interfaces/data'
+interface initialStateI{
+  DataI: DataI
+}
+let initialState:any = {
+  Data:[],
 }
 
 export const Data = createSlice({

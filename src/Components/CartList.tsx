@@ -20,8 +20,7 @@ export default function CartList() {
   console.log(items);
   
 const Dispatch = useDispatch()
-  const updateItem= (index:number,qtyString:number)=>{
-    console.log("qty",qtyString);
+  const updateItem= (index:number,qtyString:string)=>{
     let qty=getQtyStringToInt(qtyString)
     Dispatch(updateCartItemQty({
       index,
@@ -68,7 +67,6 @@ const Dispatch = useDispatch()
                 <img src={row.Image} width="70px" />
 
                 {row.Name}
-
               </TableCell>
               <TableCell align="right">{row.Price
               }</TableCell>
