@@ -31,7 +31,7 @@ const number = useSelector((state: any) => state.NumberOfSelectedItem.NumberOfSe
 
            <TextField id="outlined-search" onChange={(e)=>
          dispach( SetData( serach(e.target.value,JsonData.data)))} label="Search field" size="small"  type="search" />
-           <Button variant="contained"  onClick={()=>router.push("/Cart")}>add to cart</Button>
+           <Button variant="contained"  onClick={()=>{if(number>0){router.push("/Cart")}}}>add to cart</Button>
            </div>
            </div>
    <List/>

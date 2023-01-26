@@ -7,7 +7,8 @@
             "Stock": "in Stock",
             "Price": "35",
             "Size": "l",
-            "Type": "hoddie"
+            "Type": "hoddie",
+            "id":1
         },
         {
             "Image": "https://thumbs.dreamstime.com/b/blank-hoodie-sweatshirt-color-grey-front-view-white-background-99734000.jpg",
@@ -16,7 +17,8 @@
             "Stock": "in Stock",
             "Price": "35",
             "Size": "xl",
-            "Type": "hoddie"
+            "Type": "hoddie",
+            "id":2
         },
         {
             "Image": "https://www.redwolf.in/image/cache/catalog/sweatshirts/batman-classic-logo-hoodie-india-1-700x700.jpg",
@@ -25,7 +27,8 @@
             "Stock": "in Stock",
             "Price": "35",
             "Size": "xxl",
-            "Type": "hoddie"
+            "Type": "hoddie",
+            "id":3
         },
         {
             "Image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb07DO_3ciqSP3C2KGGhTlDZgxSytKBjB1nA&usqp=CAU",
@@ -34,7 +37,8 @@
             "Stock": "in Stock",
             "Price": "35",
             "Size": "xxl",
-            "Type": "hoddie"
+            "Type": "hoddie",
+            "id":4
         }
     ]
 }

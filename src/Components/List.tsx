@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { alpha } from '@mui/material/styles';
-
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -24,31 +24,19 @@ import { visuallyHidden } from '@mui/utils';
 import { TextField } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { SetNumberOfSelectedItem, SetSelectedItem } from '@/Redux/Selecteditem';
+import { SetNumberOfSelectedItem, SetSelectedItem, updateCartItemWithId } from '@/Redux/Selecteditem';
 import { updateItemQty } from '@/Redux/dataslice';
+import { getQtyStringToInt } from '@/utils/utils-generic';
 interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
+Images:String;
+  Color: string;
+  Price: string;
+  Name: string;
+  Buy: string;
+  Stock: string;
+
 }
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-): Data {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
 
 // const rows = [
 //   createData('Cupcake', 305, 3.7, 67, 4.3),
@@ -173,7 +161,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     <TableHead  style={{backgroundColor:"rgb(235 235 235)" ,borderBottom: "solid grey"}}>
       <TableRow>
       
-        {headCells.map((headCell) => (
+        {headCells.map((headCell:any) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -244,7 +232,7 @@ export default function List() {
 
     const selectedIndex = selected.findIndex((data:any)=>data.Name===row.Name);
     console.log("selected index is ",selectedIndex)
-    let newSelected= [];
+    let newSelected:any= [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, row);
@@ -296,24 +284,33 @@ export default function List() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.findIndex((data)=>data.Name===name) !== -1;
+  const isSelected = (name: string) => selected.findIndex((data:any)=>data.Name===name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
 const Dispatch =useDispatch()
-const updateItem= (index,qty)=>{
-  console.log("index,qty",index,qty);
+const updateItem= (index:number,stringQty:any,id:number)=>{
+  let qty=getQtyStringToInt(stringQty)
   
+  console.log("index,qty",index,qty);
   Dispatch(updateItemQty({
     index,
     qty
   }))
+  Dispatch(updateCartItemWithId({
+    id,
+    qty
+  }))
+  
 }
- 
+ useEffect(() => {
+  
  Dispatch(SetNumberOfSelectedItem(selected.length))
-Dispatch(SetSelectedItem(selected));
+ Dispatch(SetSelectedItem(selected));  
+ }, [selected])
+ 
  return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -337,19 +334,17 @@ Dispatch(SetSelectedItem(selected));
             <TableBody style={{backgroundColor:"rgb(249 246 246)"}} >
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row:any, index:number) => {
                   const isItemSelected = isSelected(row.Name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.Name,row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
-                      selected={isItemSelected}
                     >
                    
                    <TableCell align='left'
@@ -368,7 +363,7 @@ Dispatch(SetSelectedItem(selected));
                       
                       <TableCell align="right" >
  
-                        <TextField  size='small' value={row.qty} onChange={(e)=>updateItem(index,e.target.value)} style={{width:'50px'}}></TextField> 
+                        <TextField  size='small' defaultValue="1" onChange={(e)=>updateItem(index,e.target.value,row.id)} style={{width:'50px'}}></TextField> 
                         <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
                       <TableCell style={{width:"10px"}}>
@@ -376,6 +371,9 @@ Dispatch(SetSelectedItem(selected));
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
+                     
+                          
+                      onClick={(event) => handleClick(event, row.Name,row)}
                           inputProps={{
                             'aria-labelledby': labelId,
                           }}

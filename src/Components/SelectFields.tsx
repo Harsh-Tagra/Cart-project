@@ -9,6 +9,8 @@ import { Button} from "@mui/material"
 import UndoIcon from '@mui/icons-material/Undo';
 import  { useState } from 'react';
 export default function SelectFields({items}:any) {
+  let itemSet= [...new Set(items.map(item =>item.Type))];
+  
 const [value1, setvalue1] = useState("ALL")  
 const [value2, setvalue2] = useState("ALL")
 const dispach= useDispatch()   
@@ -49,7 +51,7 @@ onChange={(e)=>{
  
 <MenuItem key="ALL" value="ALL">ALL</MenuItem>
           
-        {items.map(({Type}:any) => (
+        {itemSet.map((Type) => (
  
  <MenuItem key={Type} value={Type}>
             {Type}
