@@ -363,7 +363,7 @@ const updateItem= (index:number,stringQty:any,id:number)=>{
                       
                       <TableCell align="right" >
  
-                        <TextField  size='small' defaultValue="1" onChange={(e)=>updateItem(index,e.target.value,row.id)} style={{width:'50px'}}></TextField> 
+                        <TextField  size='small' value={row.qty} onChange={(e)=>updateItem(index,e.target.value)} style={{width:'50px'}}></TextField> 
                         <ShoppingCartIcon fontSize="large"  style={{ color:"white", width:"70px", height:"6.5vh",backgroundColor:"black"}} />
                       </TableCell>
                       <TableCell style={{width:"10px"}}>
